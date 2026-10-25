@@ -1,0 +1,3597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FD-Trend | Fashion Trend Intelligence</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* =========================================================
+   GLOBAL
+========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #070b18;
+            color: #f5f7ff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body.light {
+            background: #f5f6fb;
+            color: #16182a;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+
+
+
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+
+
+
+        }
+
+        :root {
+            --bg: #070b18;
+            --bg2: #0c1225;
+            --card: #10172b;
+            --card2: #131c34;
+            --border: rgba(255, 255, 255, .10);
+
+            --pink: #ff42b3;
+            --purple: #9b5cff;
+            --blue: #4b8cff;
+            --cyan: #38d9ff;
+            --green: #47e6b1;
+            --orange: #ffad55;
+
+            --text: #f5f7ff;
+            --muted: #9ca8c3;
+
+            --gradient: linear-gradient(135deg, #ff42b3, #8d4dff);
+        }
+
+        body.light {
+            --bg: #f5f6fb;
+            --bg2: #ffffff;
+            --card: #ffffff;
+            --card2: #f1f3fa;
+            --border: rgba(20, 25, 50, .10);
+
+            --text: #171a2c;
+            --muted: #697087;
+        }
+
+        /* =========================================================
+   SCROLLBAR
+========================================================= */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #080c19;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(#ff42b3, #8d4dff);
+            border-radius: 20px;
+        }
+
+        /* =========================================================
+   NAVBAR
+========================================================= */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+
+            background: rgba(7, 11, 24, .78);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.light .navbar {
+            background: rgba(255, 255, 255, .82);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 15px 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-family: "Space Grotesk";
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: linear-gradient(135deg, #ff42b3, #8e5bff);
+            color: white;
+
+            font-weight: 700;
+            font-style: italic;
+
+            box-shadow: 0 0 25px rgba(255, 66, 179, .35);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: 14px;
+            transition: .3s;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--pink);
+        }
+
+        .nav-links a.active::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--pink);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .theme-btn,
+        .mobile-menu-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        .theme-btn:hover,
+        .mobile-menu-btn:hover {
+            border-color: var(--pink);
+            transform: translateY(-2px);
+        }
+
+        .admin-btn {
+            border: none;
+            color: white;
+            padding: 11px 19px;
+            border-radius: 25px;
+            font-weight: 700;
+
+            background: var(--gradient);
+
+            box-shadow: 0 8px 25px rgba(151, 73, 255, .25);
+
+            transition: .3s;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255, 66, 179, .35);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* =========================================================
+   MOBILE NAV
+========================================================= */
+
+        .mobile-nav {
+            position: fixed;
+            top: 72px;
+            right: 15px;
+
+            width: 230px;
+
+            padding: 15px;
+
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+
+            background: rgba(12, 18, 37, .97);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+
+            z-index: 999;
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .4);
+        }
+
+        .mobile-nav.show {
+            display: flex;
+        }
+
+        .mobile-nav a {
+            padding: 12px;
+            border-radius: 10px;
+            color: #cbd2e6;
+        }
+
+        .mobile-nav a:hover {
+            background: rgba(255, 66, 179, .1);
+            color: var(--pink);
+        }
+
+        /* =========================================================
+   HERO
+========================================================= */
+
+        .hero {
+            min-height: 720px;
+            padding: 150px 30px 80px;
+
+            background:
+                radial-gradient(circle at 75% 35%, rgba(155, 92, 255, .22), transparent 30%),
+                radial-gradient(circle at 15% 30%, rgba(255, 66, 179, .10), transparent 25%),
+                linear-gradient(180deg, #080c1b, #070b18);
+        }
+
+        .hero-container {
+            max-width: 1320px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 8px 14px;
+
+            border: 1px solid rgba(56, 217, 255, .25);
+            background: rgba(56, 217, 255, .07);
+
+            color: #5ee4ff;
+
+            border-radius: 30px;
+
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff4f9b;
+            border-radius: 50%;
+
+            box-shadow: 0 0 12px #ff4f9b;
+
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .35
+            }
+        }
+
+        .hero h1 {
+            font-family: "Space Grotesk";
+            font-size: clamp(48px, 6vw, 82px);
+            line-height: 1.02;
+            margin: 25px 0;
+
+            letter-spacing: -3px;
+        }
+
+        .hero h1 span {
+            display: block;
+
+            background: linear-gradient(90deg,
+                    #ff42b3,
+                    #b35cff,
+                    #5a8cff);
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 620px;
+            color: var(--muted);
+            font-size: 17px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            margin: 30px 0;
+        }
+
+        .primary-btn,
+        .secondary-btn,
+        .white-btn {
+            padding: 14px 22px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .primary-btn {
+            background: var(--gradient);
+            color: white;
+
+            box-shadow: 0 10px 30px rgba(255, 66, 179, .25);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 66, 179, .4);
+        }
+
+        .secondary-btn {
+            color: var(--text);
+            border: 1px solid var(--border);
+            background: transparent;
+        }
+
+        .secondary-btn:hover {
+            border-color: var(--pink);
+            color: var(--pink);
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 35px;
+            margin-top: 40px;
+        }
+
+        .hero-meta div {
+            padding-right: 30px;
+            border-right: 1px solid var(--border);
+        }
+
+        .hero-meta div:last-child {
+            border: none;
+        }
+
+        .hero-meta strong {
+            display: block;
+            font-size: 21px;
+        }
+
+        .hero-meta span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* =========================================================
+   TREND PULSE
+========================================================= */
+
+        .hero-dashboard {
+            padding: 25px;
+
+            background:
+                linear-gradient(145deg,
+                    rgba(19, 28, 52, .95),
+                    rgba(8, 12, 27, .92));
+
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 25px;
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, .45),
+                inset 0 0 40px rgba(155, 92, 255, .04);
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-dashboard::before {
+            content: "";
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            background: #9b5cff;
+            filter: blur(130px);
+
+            opacity: .15;
+
+            top: -100px;
+            right: -100px;
+        }
+
+        .dashboard-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .small-label,
+        .section-kicker {
+            color: var(--pink);
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .dashboard-top h3 {
+            font-size: 20px;
+            margin-top: 4px;
+        }
+
+        .live-status {
+            color: #54efb7;
+            background: rgba(71, 230, 177, .1);
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        .pulse-score {
+            display: flex;
+            justify-content: center;
+            margin: 35px 0;
+        }
+
+        .score-circle {
+            width: 190px;
+            height: 190px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(#ff42b3 0deg,
+                    #9b5cff 230deg,
+                    #293454 230deg);
+
+            padding: 12px;
+
+            box-shadow: 0 0 45px rgba(155, 92, 255, .25);
+        }
+
+        .score-inner {
+            width: 100%;
+            height: 100%;
+
+            border-radius: 50%;
+
+            background: #0b1022;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .score-inner strong {
+            font-size: 55px;
+            font-family: "Space Grotesk";
+        }
+
+        .score-inner span {
+            color: var(--muted);
+        }
+
+        .pulse-info {
+            margin-top: 10px;
+        }
+
+        .pulse-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-top: 17px;
+        }
+
+        .pulse-row span {
+            color: var(--muted);
+        }
+
+        .pulse-row strong {
+            color: #fff;
+        }
+
+        .pulse-bar,
+        .signal-line,
+        .forecast-bar {
+            height: 7px;
+            background: #202b48;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .pulse-bar span,
+        .signal-line span,
+        .forecast-bar span {
+            display: block;
+            height: 100%;
+
+            background: linear-gradient(90deg, #ff42b3, #9b5cff, #39d9ff);
+
+            border-radius: 10px;
+
+            transition: width 1s ease;
+        }
+
+        .dashboard-footer {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .dashboard-footer span {
+            color: var(--muted);
+        }
+
+        .dashboard-footer strong {
+            color: #4be6ae;
+        }
+
+        /* =========================================================
+   STATS
+========================================================= */
+
+        .stats-section {
+            padding: 0 30px;
+            margin-top: -20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .stats-container {
+            max-width: 1320px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            background: rgba(14, 21, 42, .9);
+            border: 1px solid var(--border);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .stat-card {
+            padding: 25px;
+
+            display: flex;
+            align-items: center;
+            gap: 18px;
+
+            border-right: 1px solid var(--border);
+        }
+
+        .stat-card:last-child {
+            border: none;
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            color: var(--pink);
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 25px;
+            font-family: "Space Grotesk";
+        }
+
+        .stat-card span:last-child {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* =========================================================
+   COMMON SECTION
+========================================================= */
+
+        .section {
+            padding: 100px 30px;
+        }
+
+        .section-container {
+            max-width: 1320px;
+            margin: auto;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 30px;
+
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-family: "Space Grotesk";
+            font-size: 45px;
+            line-height: 1.1;
+            margin-top: 10px;
+        }
+
+        .section-heading h2 span {
+            color: var(--pink);
+        }
+
+        .section-heading p {
+            max-width: 450px;
+            color: var(--muted);
+        }
+
+        /* =========================================================
+   TREND CONTROLS
+========================================================= */
+
+        .trend-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            min-width: 280px;
+            flex: 1;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 12px 16px;
+
+            border: 1px solid var(--border);
+            background: var(--card);
+
+            border-radius: 14px;
+        }
+
+        .search-box span {
+            color: var(--muted);
+            font-size: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: none;
+            color: var(--text);
+        }
+
+        .search-box input::placeholder {
+            color: #737e99;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 14px;
+
+            border: 1px solid var(--border);
+            background: var(--card);
+
+            color: var(--muted);
+
+            border-radius: 20px;
+
+            transition: .25s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg,
+                    rgba(255, 66, 179, .2),
+                    rgba(155, 92, 255, .2));
+
+            border-color: var(--pink);
+            color: #fff;
+        }
+
+        /* =========================================================
+   TREND GRID
+========================================================= */
+
+        .trend-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .trend-card {
+            position: relative;
+            overflow: hidden;
+
+            min-height: 270px;
+
+            background: var(--card);
+
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            transition: .35s;
+
+            cursor: pointer;
+        }
+
+        .trend-card:hover {
+            transform: translateY(-7px);
+
+            border-color: rgba(255, 66, 179, .5);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, .35),
+                0 0 30px rgba(255, 66, 179, .08);
+        }
+
+        .trend-image {
+            height: 170px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 60px;
+
+            background:
+                radial-gradient(circle at center,
+                    rgba(255, 255, 255, .18),
+                    transparent 50%),
+                linear-gradient(135deg,
+                    #151e3c,
+                    #471b56);
+
+            position: relative;
+        }
+
+        .trend-card:nth-child(2) .trend-image {
+            background: linear-gradient(135deg, #172e47, #176b72);
+        }
+
+        .trend-card:nth-child(3) .trend-image {
+            background: linear-gradient(135deg, #32124c, #8d237c);
+        }
+
+        .trend-card:nth-child(4) .trend-image {
+            background: linear-gradient(135deg, #3e2716, #9b6734);
+        }
+
+        .trend-card:nth-child(5) .trend-image {
+            background: linear-gradient(135deg, #102f35, #167a78);
+        }
+
+        .trend-card:nth-child(6) .trend-image {
+            background: linear-gradient(135deg, #202541, #5747a5);
+        }
+
+        .trend-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+
+            padding: 5px 9px;
+
+            border-radius: 15px;
+
+            background: rgba(0, 0, 0, .5);
+
+            color: #fff;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .trend-score {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+
+            padding: 5px 9px;
+
+            border-radius: 15px;
+
+            background: rgba(0, 0, 0, .6);
+
+            font-size: 11px;
+        }
+
+        .trend-content {
+            padding: 15px;
+        }
+
+        .trend-content h3 {
+            font-size: 17px;
+            margin-bottom: 4px;
+        }
+
+        .trend-content p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .growth {
+            color: #45e5a8 !important;
+            font-weight: 700;
+            margin-top: 7px;
+        }
+
+        .loading-state,
+        .empty-state {
+            grid-column: 1/-1;
+
+            padding: 60px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            background: var(--card);
+
+            border: 1px dashed var(--border);
+            border-radius: 20px;
+        }
+
+        /* =========================================================
+   ANALYTICS
+========================================================= */
+
+        .analytics-section {
+            padding: 100px 30px;
+
+            background:
+                radial-gradient(circle at 20% 50%,
+                    rgba(255, 66, 179, .12),
+                    transparent 30%),
+                linear-gradient(135deg,
+                    #0a1022,
+                    #101633);
+        }
+
+        .analytics-container {
+            max-width: 1320px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .analytics-copy h2 {
+            font-family: "Space Grotesk";
+            font-size: 55px;
+            line-height: 1.05;
+            margin: 18px 0;
+        }
+
+        .analytics-copy h2 span {
+            color: var(--pink);
+        }
+
+        .analytics-copy p {
+            color: var(--muted);
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+
+        .white-btn {
+            background: white;
+            color: #16182b;
+        }
+
+        .white-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .analytics-score-card {
+            padding: 35px;
+
+            background: rgba(9, 14, 30, .75);
+
+            border: 1px solid var(--border);
+            border-radius: 25px;
+
+            box-shadow: 0 30px 70px rgba(0, 0, 0, .3);
+        }
+
+        .big-score {
+            display: flex;
+            align-items: end;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .big-score span {
+            color: var(--muted);
+        }
+
+        .big-score strong {
+            font-family: "Space Grotesk";
+            font-size: 75px;
+            line-height: .8;
+        }
+
+        .big-score small {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .signal {
+            margin-bottom: 20px;
+        }
+
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .signal-header span {
+            color: #b7c0d7;
+        }
+
+        .signal-header strong {
+            color: #fff;
+        }
+
+        /* =========================================================
+   MARKETING
+========================================================= */
+
+        .marketing-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .marketing-card {
+            padding: 25px;
+
+            background: var(--card);
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            transition: .3s;
+        }
+
+        .marketing-card:hover {
+            transform: translateY(-7px);
+            border-color: var(--pink);
+        }
+
+        .marketing-card.featured {
+            background:
+                linear-gradient(145deg,
+                    rgba(255, 66, 179, .12),
+                    rgba(155, 92, 255, .07)),
+                var(--card);
+        }
+
+        .marketing-number {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .marketing-icon {
+            width: 50px;
+            height: 50px;
+
+            margin: 25px 0 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            color: white;
+            font-size: 20px;
+
+            background: var(--gradient);
+        }
+
+        .marketing-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .marketing-card p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .card-link {
+            display: block;
+            margin-top: 20px;
+            color: var(--pink);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =========================================================
+   FORECAST
+========================================================= */
+
+        .forecast-section {
+            background: #0a0f20;
+        }
+
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .forecast-card {
+            padding: 28px;
+
+            background: var(--card);
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            transition: .3s;
+        }
+
+        .forecast-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--orange);
+        }
+
+        .forecast-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .forecast-top span {
+            color: var(--muted);
+        }
+
+        .forecast-top strong {
+            color: var(--orange);
+            font-size: 25px;
+        }
+
+        .forecast-card h3 {
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .forecast-card p {
+            color: var(--muted);
+            font-size: 13px;
+            min-height: 65px;
+        }
+
+        .forecast-card small {
+            display: block;
+            color: var(--orange);
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        /* =========================================================
+   ABOUT
+========================================================= */
+
+        .about-box {
+            display: grid;
+            grid-template-columns: 1.5fr .7fr;
+            gap: 60px;
+
+            padding: 55px;
+
+            background:
+                radial-gradient(circle at 80% 30%,
+                    rgba(155, 92, 255, .14),
+                    transparent 30%),
+                var(--card);
+
+            border: 1px solid var(--border);
+            border-radius: 25px;
+        }
+
+        .about-content h2 {
+            font-family: "Space Grotesk";
+            font-size: 45px;
+            line-height: 1.1;
+            margin: 18px 0;
+        }
+
+        .about-content h2 span {
+            color: var(--pink);
+        }
+
+        .about-content p {
+            color: var(--muted);
+            max-width: 700px;
+            margin: 15px 0;
+        }
+
+        .about-highlight {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .highlight-circle {
+            width: 150px;
+            height: 150px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 40px;
+            font-weight: 700;
+            font-style: italic;
+
+            background: var(--gradient);
+
+            box-shadow:
+                0 0 60px rgba(255, 66, 179, .25);
+        }
+
+        .about-highlight strong {
+            margin-top: 25px;
+            font-size: 17px;
+        }
+
+        /* =========================================================
+   FOOTER
+========================================================= */
+
+        .footer {
+            background: #050815;
+            border-top: 1px solid var(--border);
+            padding: 65px 30px 25px;
+        }
+
+        .footer-container {
+            max-width: 1320px;
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .footer-brand {
+            max-width: 350px;
+        }
+
+        .footer-logo {
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 100px;
+        }
+
+        .footer-links div {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .footer-links strong {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .footer-links a:hover {
+            color: var(--pink);
+        }
+
+        .footer-bottom {
+            max-width: 1320px;
+            margin: 50px auto 0;
+
+            padding-top: 20px;
+
+            border-top: 1px solid var(--border);
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #68738e;
+            font-size: 11px;
+        }
+
+        /* =========================================================
+   MODAL
+========================================================= */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 2000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            inset: 0;
+
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-box,
+        .trend-modal-box {
+            position: relative;
+            z-index: 2;
+
+            width: min(450px, 90%);
+
+            padding: 35px;
+
+            background: #0d1429;
+
+            border: 1px solid var(--border);
+
+            border-radius: 25px;
+
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+
+            animation: modalIn .3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+
+            width: 35px;
+            height: 35px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, .07);
+            color: white;
+
+            font-size: 22px;
+        }
+
+        .modal-close:hover {
+            background: #ff42b3;
+        }
+
+        .modal-logo {
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background: var(--gradient);
+
+            font-size: 20px;
+            font-weight: 700;
+            font-style: italic;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-box h2 {
+            font-family: "Space Grotesk";
+            font-size: 32px;
+            margin: 8px 0;
+        }
+
+        .modal-box p {
+            color: var(--muted);
+            margin-bottom: 25px;
+        }
+
+        #loginForm {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #loginForm label {
+            font-size: 12px;
+            color: #aab4cd;
+            margin-top: 10px;
+        }
+
+        #loginForm input {
+            width: 100%;
+            padding: 13px 15px;
+
+            background: #080d1d;
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+
+            outline: none;
+
+            color: white;
+        }
+
+        #loginForm input:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px rgba(255, 66, 179, .08);
+        }
+
+        .login-submit {
+            margin-top: 18px;
+        }
+
+        .login-message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* =========================================================
+   TREND DETAIL MODAL
+========================================================= */
+
+        .trend-modal-box {
+            width: min(650px, 92%);
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .detail-icon {
+            width: 85px;
+            height: 85px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background: linear-gradient(135deg, #31194e, #12616d);
+
+            font-size: 40px;
+        }
+
+        .detail-title {
+            flex: 1;
+        }
+
+        .detail-title h2 {
+            font-family: "Space Grotesk";
+            font-size: 30px;
+        }
+
+        .detail-title p {
+            color: var(--muted);
+        }
+
+        .detail-score {
+            font-size: 28px;
+            color: #ff42b3;
+            font-weight: 700;
+        }
+
+        .detail-content {
+            margin-top: 30px;
+        }
+
+        .detail-content p {
+            color: var(--muted);
+        }
+
+        .detail-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+        .detail-stat {
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: #10182e;
+
+            border: 1px solid var(--border);
+
+            text-align: center;
+        }
+
+        .detail-stat strong {
+            display: block;
+            font-size: 22px;
+        }
+
+        .detail-stat span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* =========================================================
+   TOAST
+========================================================= */
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+
+            z-index: 3000;
+
+            padding: 14px 20px;
+
+            background: #111a32;
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            color: white;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .35);
+
+            transform: translateY(100px);
+            opacity: 0;
+
+            transition: .35s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* =========================================================
+   BACK TO TOP
+========================================================= */
+
+        .back-top {
+            position: fixed;
+            right: 22px;
+            bottom: 80px;
+
+            width: 45px;
+            height: 45px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: var(--gradient);
+            color: white;
+
+            display: none;
+
+            z-index: 900;
+
+            font-size: 18px;
+        }
+
+        .back-top.show {
+            display: block;
+        }
+
+        /* =========================================================
+   RESPONSIVE
+========================================================= */
+
+        @media(max-width:1100px) {
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-dashboard {
+                max-width: 650px;
+                width: 100%;
+                margin: auto;
+            }
+
+            .trend-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .marketing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-card:nth-child(2) {
+                border-right: none;
+            }
+
+            .analytics-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:800px) {
+
+            .nav-container {
+                padding: 12px 18px;
+            }
+
+            .nav-links,
+            .admin-btn {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 125px 18px 60px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+                letter-spacing: -2px;
+            }
+
+            .hero-meta {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .section {
+                padding: 75px 18px;
+            }
+
+            .section-heading {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .section-heading h2 {
+                font-size: 38px;
+            }
+
+            .trend-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .forecast-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-box {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                gap: 60px;
+            }
+        }
+
+        @media(max-width:550px) {
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .logo-mark {
+                width: 34px;
+                height: 34px;
+            }
+
+            .theme-btn {
+                width: 38px;
+                height: 38px;
+            }
+
+            .hero h1 {
+                font-size: 39px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-buttons button {
+                width: 100%;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .stat-card:last-child {
+                border-bottom: none;
+            }
+
+            .trend-grid,
+            .marketing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .category-filters {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 5px;
+                width: 100%;
+            }
+
+            .filter-btn {
+                white-space: nowrap;
+            }
+
+            .analytics-copy h2 {
+                font-size: 40px;
+            }
+
+            .big-score strong {
+                font-size: 60px;
+            }
+
+            .detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .detail-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="#home" class="logo">
+                <span class="logo-mark">FD</span>
+                <span>FD-Trend</span>
+            </a>
+
+            <div class="nav-links">
+
+                <a href="index.php" class="nav-link active">Home</a>
+
+                <a href="shop.php" class="nav-link">Shop All</a>
+
+                <a href="categories.php" class="nav-link">13 Categories</a>
+
+                <a href="reels.php" class="nav-link">Fashion Reels</a>
+
+                <a href="#trending" class="nav-link">Trending</a>
+
+                <a href="marketing.php" class="nav-link">Fashion Journal</a>
+
+                <a href="contact.php" class="nav-link">Contact</a>
+
+            </div>
+
+            <div class="nav-actions">
+
+                <button class="theme-btn" id="themeBtn" title="Change theme">
+                    ◐
+                </button>
+
+                <a href="cart.php" class="admin-btn">Cart</a>
+
+                <a class="admin-btn" id="loginBtn" href="login.php">Login</a>
+
+                <a class="admin-btn" href="register.php">Register</a>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    ☰
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================================
+     MOBILE MENU
+========================================================= -->
+
+    <div class="mobile-nav" id="mobileNav">
+
+        <a href="#home">Home</a>
+        <a href="shop.php">Shop</a>
+        <a href="#trending">Trending</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#marketing">Marketing</a>
+        <a href="marketing.php">Fashion journal</a>
+        <a href="reels.php">Fashion Reels</a>
+        <a href="#forecast">Forecast</a>
+        <a href="#about">About</a>
+        <a href="contact.php">Contact</a>
+        <a href="login.php">Login</a>
+        <a href="register.php">Register</a>
+        <a href="cart.php">Cart</a>
+
+    </div>
+
+
+    <!-- =========================================================
+     HERO
+========================================================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-container">
+
+            <div class="hero-content">
+
+                <div class="live-badge">
+
+                    <span class="live-dot"></span>
+
+                    FASHION TREND INTELLIGENCE · DEMO
+
+                </div>
+
+                <h1>
+
+                    Discover fashion trends
+
+                    <span>before they explode.</span>
+
+                </h1>
+
+                <p>
+
+                    Explore curated fashion signals, styling ideas and future-facing inspiration.
+                    Scores on this page are illustrative demo data, not live social or sales metrics.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <button class="primary-btn" onclick="goToSection('trending')">
+
+                        Explore Trends →
+
+                    </button>
+
+                    <button class="secondary-btn" onclick="goToSection('analytics')">
+
+                        View Analytics
+
+                    </button>
+
+                </div>
+
+
+                <div class="hero-meta">
+
+                    <div>
+
+                        <strong>2026</strong>
+                        <span>Trend Intelligence</span>
+
+                    </div>
+
+                    <div>
+
+                        <strong>10+</strong>
+                        <span>Signals Tracked</span>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Demo</strong>
+                        <span>Editorial Estimates</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TREND PULSE -->
+
+            <div class="hero-dashboard">
+
+                <div class="dashboard-top">
+
+                    <div>
+
+                        <span class="small-label">
+                            ILLUSTRATIVE DEMO
+                        </span>
+
+                        <h3>Fashion Momentum</h3>
+
+                    </div>
+
+                    <span class="live-status">
+                        ● DEMO
+                    </span>
+
+                </div>
+
+
+                <div class="pulse-score">
+
+                    <div class="score-circle">
+
+                        <div class="score-inner">
+
+                            <strong>91</strong>
+
+                            <span>/100</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pulse-info">
+
+                    <div class="pulse-row">
+
+                        <span>Social Momentum</span>
+
+                        <strong>+30%</strong>
+
+                    </div>
+
+                    <div class="pulse-bar">
+                        <span style="width:86%"></span>
+                    </div>
+
+
+                    <div class="pulse-row">
+
+                        <span>Search Interest</span>
+
+                        <strong>+25%</strong>
+
+                    </div>
+
+                    <div class="pulse-bar">
+                        <span style="width:74%"></span>
+                    </div>
+
+
+                    <div class="pulse-row">
+
+                        <span>Engagement</span>
+
+                        <strong>+20%</strong>
+
+                    </div>
+
+                    <div class="pulse-bar">
+                        <span style="width:68%"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-footer">
+
+                    <span>Market direction</span>
+
+                    <strong>↑ Accelerating</strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+     STATS
+========================================================= -->
+
+    <section class="stats-section">
+
+        <div class="stats-container">
+
+            <div class="stat-card">
+
+                <span class="stat-icon">✦</span>
+
+                <div>
+
+                    <strong id="totalTrends">10+</strong>
+
+                    <span>Trends Tracked</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">◈</span>
+
+                <div>
+
+                    <strong id="averageScore">88.5</strong>
+
+                    <span>Average Score</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">↗</span>
+
+                <div>
+
+                    <strong id="averageGrowth">25%</strong>
+
+                    <span>Avg Growth</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">🔥</span>
+
+                <div>
+
+                    <strong id="hotTrends">5</strong>
+
+                    <span>Hot Trends</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+     TRENDING
+========================================================= -->
+
+    <section class="section" id="trending">
+
+        <div class="section-container">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-kicker">
+                        WHAT'S MOVING NOW
+                    </span>
+
+                    <h2>
+                        Trending <span>Fashion</span>
+                    </h2>
+
+                </div>
+
+                <p>
+                    Explore the fashion signals gaining momentum
+                    across culture, social media and consumer interest.
+                </p>
+
+            </div>
+
+
+            <div class="trend-controls">
+
+                <div class="search-box">
+
+                    <span>⌕</span>
+
+                    <input type="text" id="searchInput" placeholder="Search fashion trends...">
+
+                </div>
+
+
+                <div class="category-filters" id="categoryFilters">
+
+                    <button class="filter-btn active" data-category="All">
+
+                        All
+
+                    </button>
+
+                    <button class="filter-btn" data-category="Streetwear">
+
+                        Streetwear
+
+                    </button>
+
+                    <button class="filter-btn" data-category="Y2K">
+
+                        Y2K
+
+                    </button>
+
+                    <button class="filter-btn" data-category="Luxury">
+
+                        Luxury
+
+                    </button>
+
+                    <button class="filter-btn" data-category="Accessories">
+
+                        Accessories
+
+                    </button>
+
+                    <button class="filter-btn" data-category="Denim">
+
+                        Denim
+
+                    </button>
+
+                    <button class="filter-btn" data-category="Utility">
+
+                        Utility
+
+                    </button>
+
+                    <button class="filter-btn" data-category="Aesthetic">
+
+                        Aesthetic
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="trend-grid" id="trendGrid">
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+     ANALYTICS
+========================================================= -->
+
+    <section class="analytics-section" id="analytics">
+
+        <div class="analytics-container">
+
+            <div class="analytics-copy">
+
+                <span class="section-kicker">
+                    TREND INTELLIGENCE ENGINE
+                </span>
+
+                <h2>
+
+                    Every trend gets
+
+                    <span>a score.</span>
+
+                </h2>
+
+                <p>
+
+                    FD-Trend combines multiple signals to estimate
+                    how strongly a fashion trend is moving.
+
+                </p>
+
+                <button class="white-btn" onclick="goToSection('trending')">
+
+                    Explore Scored Trends →
+
+                </button>
+
+            </div>
+
+
+            <div class="analytics-score-card">
+
+                <div class="big-score">
+
+                    <span>Trend Score</span>
+
+                    <strong>91</strong>
+
+                    <small>/100</small>
+
+                </div>
+
+
+                <div class="signal">
+
+                    <div class="signal-header">
+
+                        <span>Social Momentum</span>
+                        <strong>30%</strong>
+
+                    </div>
+
+                    <div class="signal-line">
+                        <span style="width:90%"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="signal">
+
+                    <div class="signal-header">
+
+                        <span>Search Interest</span>
+                        <strong>25%</strong>
+
+                    </div>
+
+                    <div class="signal-line">
+                        <span style="width:76%"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="signal">
+
+                    <div class="signal-header">
+
+                        <span>Engagement</span>
+                        <strong>20%</strong>
+
+                    </div>
+
+                    <div class="signal-line">
+                        <span style="width:70%"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="signal">
+
+                    <div class="signal-header">
+
+                        <span>Growth Velocity</span>
+                        <strong>15%</strong>
+
+                    </div>
+
+                    <div class="signal-line">
+                        <span style="width:63%"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="signal">
+
+                    <div class="signal-header">
+
+                        <span>Cultural Relevance</span>
+                        <strong>10%</strong>
+
+                    </div>
+
+                    <div class="signal-line">
+                        <span style="width:82%"></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+     MARKETING
+========================================================= -->
+
+    <section class="section" id="marketing">
+
+        <div class="section-container">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-kicker">
+                        WHAT BRANDS ARE DOING
+                    </span>
+
+                    <h2>
+                        Fashion <span>Marketing</span>
+                    </h2>
+
+                </div>
+
+                <p>
+                    The strategies helping fashion brands and creators
+                    turn trends into attention.
+                </p>
+
+            </div>
+
+
+            <div class="marketing-grid">
+
+
+                <div class="marketing-card">
+
+                    <div class="marketing-number">01</div>
+
+                    <div class="marketing-icon">▶</div>
+
+                    <h3>Reels First</h3>
+
+                    <p>
+                        Short-form video is becoming a powerful way
+                        to introduce products and styling ideas.
+                    </p>
+
+                    <a class="card-link" href="reels.php">Browse reels →</a>
+
+                </div>
+
+
+                <div class="marketing-card featured">
+
+                    <div class="marketing-number">02</div>
+
+                    <div class="marketing-icon">✦</div>
+
+                    <h3>Authentic Content</h3>
+
+                    <p>
+                        Behind-the-scenes videos and creator opinions
+                        help brands build trust.
+                    </p>
+
+                    <a class="card-link" href="marketing.php">Read the journal →</a>
+
+                </div>
+
+
+                <div class="marketing-card">
+
+                    <div class="marketing-number">03</div>
+
+                    <div class="marketing-icon">◎</div>
+
+                    <h3>Creator Communities</h3>
+
+                    <p>
+                        Brands work with creators who already have
+                        strong niche communities.
+                    </p>
+
+                    <a class="card-link" href="marketing.php">Explore style stories →</a>
+
+                </div>
+
+
+                <div class="marketing-card">
+
+                    <div class="marketing-number">04</div>
+
+                    <div class="marketing-icon">🛒</div>
+
+                    <h3>Social Commerce</h3>
+
+                    <p>
+                        Fashion discovery and shopping are moving
+                        closer together through social platforms.
+                    </p>
+
+                    <a class="card-link" href="shop.php">Shop the catalog →</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+     FORECAST
+========================================================= -->
+
+    <section class="section forecast-section" id="forecast">
+
+        <div class="section-container">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-kicker">
+                        LOOKING AHEAD
+                    </span>
+
+                    <h2>
+                        Future <span>Forecast</span>
+                    </h2>
+
+                </div>
+
+                <p>
+                    Fashion directions that could gain stronger
+                    attention in upcoming seasons.
+                </p>
+
+            </div>
+
+
+            <div class="forecast-grid">
+
+
+                <div class="forecast-card">
+
+                    <div class="forecast-top">
+
+                        <span>01</span>
+                        <strong>89%</strong>
+
+                    </div>
+
+                    <h3>
+                        Sport-Lifestyle Fusion
+                    </h3>
+
+                    <p>
+                        Sportswear moving beyond performance into
+                        everyday lifestyle and street fashion.
+                    </p>
+
+                    <div class="forecast-bar">
+                        <span style="width:89%"></span>
+                    </div>
+
+                    <small>HIGH POTENTIAL</small>
+
+                </div>
+
+
+                <div class="forecast-card">
+
+                    <div class="forecast-top">
+
+                        <span>02</span>
+                        <strong>86%</strong>
+
+                    </div>
+
+                    <h3>
+                        Expressive Maximalism
+                    </h3>
+
+                    <p>
+                        Statement pieces, bold accessories, layering
+                        and individual styling.
+                    </p>
+
+                    <div class="forecast-bar">
+                        <span style="width:86%"></span>
+                    </div>
+
+                    <small>HIGH POTENTIAL</small>
+
+                </div>
+
+
+                <div class="forecast-card">
+
+                    <div class="forecast-top">
+
+                        <span>03</span>
+                        <strong>81%</strong>
+
+                    </div>
+
+                    <h3>
+                        Nostalgic Y2K 2.0
+                    </h3>
+
+                    <p>
+                        Early-2000s fashion returning through updated
+                        silhouettes and nostalgic details.
+                    </p>
+
+                    <div class="forecast-bar">
+                        <span style="width:81%"></span>
+                    </div>
+
+                    <small>WATCH</small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+     ABOUT
+========================================================= -->
+
+    <section class="section" id="about">
+
+        <div class="section-container">
+
+            <div class="about-box">
+
+                <div class="about-content">
+
+                    <span class="section-kicker">
+                        ABOUT FD-TREND
+                    </span>
+
+                    <h2>
+
+                        Fashion moves fast.
+
+                        <span>We track it faster.</span>
+
+                    </h2>
+
+                    <p>
+                        FD-Trend is a fashion trend intelligence platform
+                        designed to make trend discovery simpler.
+                    </p>
+
+                    <p>
+                        Instead of looking at fashion trends separately,
+                        FD-Trend brings trend signals, marketing behaviour,
+                        growth and future predictions into one place.
+                    </p>
+
+                    <p>
+                        Built for fashion brands, creators, marketers,
+                        students and anyone who wants to understand
+                        what is shaping fashion next.
+                    </p>
+
+                </div>
+
+
+                <div class="about-highlight">
+
+                    <div class="highlight-circle">
+                        FD
+                    </div>
+
+                    <strong>
+
+                        Trend intelligence
+                        <br>
+                        for the next generation.
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+     FOOTER
+========================================================= -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <a href="#home" class="logo footer-logo">
+
+                    <span class="logo-mark">FD</span>
+
+                    <span>FD-Trend</span>
+
+                </a>
+
+                <p>
+                    Fashion intelligence for what's trending now
+                    and what's coming next.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+
+                    <strong>Platform</strong>
+
+                    <a href="#trending">Trending</a>
+                    <a href="#analytics">Analytics</a>
+                    <a href="#marketing">Marketing</a>
+                    <a href="#forecast">Forecast</a>
+
+                </div>
+
+
+                <div>
+
+                    <strong>Explore</strong>
+
+                    <a href="index.php">Store home</a>
+                    <a href="about.php">About</a>
+                    <a href="contact.php">Contact</a>
+                    <a href="admin/login.php" id="footerLoginBtn">Admin login</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 FD-Trend. All rights reserved.
+            </span>
+
+            <span>
+                Fashion • Data • Culture
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+     TREND DETAIL MODAL
+========================================================= -->
+
+    <div class="modal" id="trendModal">
+
+        <div class="modal-overlay"></div>
+
+        <div class="trend-modal-box">
+
+            <button class="modal-close" id="trendClose">
+
+                ×
+
+            </button>
+
+            <div id="trendModalContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+     TOAST
+========================================================= -->
+
+    <div class="toast" id="toast">
+        Action completed
+    </div>
+
+
+    <!-- =========================================================
+     BACK TO TOP
+========================================================= -->
+
+    <button class="back-top" id="backTop">
+
+        ↑
+
+    </button>
+
+
+    <!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+    <script>
+
+        /* =========================================================
+           TREND DATA
+        ========================================================= */
+
+        const trends = [
+
+            {
+                id: 1,
+                name: "Oversized Hoodies",
+                category: "Streetwear",
+                icon: "🧥",
+                score: 92,
+                growth: "+32%",
+                description:
+                    "Comfort-first oversized silhouettes continue to influence everyday streetwear.",
+                social: "+34%",
+                search: "+29%",
+                engagement: "+31%"
+            },
+
+            {
+                id: 2,
+                name: "Denim on Denim",
+                category: "Denim",
+                icon: "👖",
+                score: 89,
+                growth: "+29%",
+                description:
+                    "Layered denim styling is returning with modern fits and cleaner silhouettes.",
+                social: "+27%",
+                search: "+31%",
+                engagement: "+28%"
+            },
+
+            {
+                id: 3,
+                name: "Y2K Sunglasses",
+                category: "Y2K",
+                icon: "🕶️",
+                score: 87,
+                growth: "+26%",
+                description:
+                    "Retro-inspired sunglasses are gaining attention through updated Y2K styling.",
+                social: "+30%",
+                search: "+24%",
+                engagement: "+25%"
+            },
+
+            {
+                id: 4,
+                name: "Mini Handbags",
+                category: "Luxury",
+                icon: "👜",
+                score: 85,
+                growth: "+24%",
+                description:
+                    "Compact statement handbags are being used as styling-focused accessories.",
+                social: "+24%",
+                search: "+28%",
+                engagement: "+22%"
+            },
+
+            {
+                id: 5,
+                name: "Chunky Jewellery",
+                category: "Accessories",
+                icon: "💎",
+                score: 82,
+                growth: "+22%",
+                description:
+                    "Bold jewellery pieces are becoming an important part of expressive styling.",
+                social: "+22%",
+                search: "+25%",
+                engagement: "+21%"
+            },
+
+            {
+                id: 6,
+                name: "Chunky Sneakers",
+                category: "Streetwear",
+                icon: "👟",
+                score: 80,
+                growth: "+20%",
+                description:
+                    "Comfort-driven chunky sneakers continue to connect streetwear and lifestyle fashion.",
+                social: "+21%",
+                search: "+20%",
+                engagement: "+23%"
+            },
+
+            {
+                id: 7,
+                name: "Utility Vests",
+                category: "Utility",
+                icon: "🦺",
+                score: 78,
+                growth: "+18%",
+                description:
+                    "Functional pockets and technical details are entering everyday fashion.",
+                social: "+19%",
+                search: "+18%",
+                engagement: "+20%"
+            },
+
+            {
+                id: 8,
+                name: "Clean Girl Aesthetic",
+                category: "Aesthetic",
+                icon: "✨",
+                score: 76,
+                growth: "+17%",
+                description:
+                    "Minimal styling, neutral palettes and polished basics remain culturally relevant.",
+                social: "+18%",
+                search: "+16%",
+                engagement: "+19%"
+            },
+
+            {
+                id: 9,
+                name: "Statement Belts",
+                category: "Accessories",
+                icon: "👗",
+                score: 74,
+                growth: "+15%",
+                description:
+                    "Statement belts are becoming stronger styling elements rather than simple utility pieces.",
+                social: "+16%",
+                search: "+15%",
+                engagement: "+17%"
+            },
+
+            {
+                id: 10,
+                name: "Cargo Denim",
+                category: "Denim",
+                icon: "👖",
+                score: 72,
+                growth: "+14%",
+                description:
+                    "Cargo details and relaxed denim silhouettes are combining utility and streetwear.",
+                social: "+15%",
+                search: "+14%",
+                engagement: "+16%"
+            }
+
+        ];
+
+
+        /* =========================================================
+           ELEMENTS
+        ========================================================= */
+
+        const trendGrid =
+            document.getElementById("trendGrid");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const filterButtons =
+            document.querySelectorAll(".filter-btn");
+
+        const trendModal =
+            document.getElementById("trendModal");
+
+        const trendModalContent =
+            document.getElementById("trendModalContent");
+
+        const trendClose =
+            document.getElementById("trendClose");
+
+        const toast =
+            document.getElementById("toast");
+
+        const themeBtn =
+            document.getElementById("themeBtn");
+
+        const mobileMenuBtn =
+            document.getElementById("mobileMenuBtn");
+
+        const mobileNav =
+            document.getElementById("mobileNav");
+
+        const backTop =
+            document.getElementById("backTop");
+
+
+        let currentCategory = "All";
+
+
+        /* =========================================================
+           LOAD TREND CARDS
+        ========================================================= */
+
+        function renderTrends() {
+
+            const search =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+            const filtered =
+                trends.filter(trend => {
+
+                    const categoryMatch =
+                        currentCategory === "All" ||
+                        trend.category === currentCategory;
+
+                    const searchMatch =
+                        trend.name
+                            .toLowerCase()
+                            .includes(search) ||
+
+                        trend.category
+                            .toLowerCase()
+                            .includes(search);
+
+                    return categoryMatch && searchMatch;
+
+                });
+
+
+            if (filtered.length === 0) {
+
+                trendGrid.innerHTML = `
+
+        <div class="empty-state">
+
+            <h3>No trends found</h3>
+
+            <p>
+            Try another search or category.
+            </p>
+
+        </div>
+
+        `;
+
+                return;
+
+            }
+
+
+            trendGrid.innerHTML =
+                filtered.map(trend => `
+
+        <div
+            class="trend-card"
+            onclick="openTrend(${trend.id})"
+        >
+
+            <div class="trend-image">
+
+                <span>
+                    ${trend.icon}
+                </span>
+
+                <span class="trend-tag">
+                    ${trend.category}
+                </span>
+
+                <span class="trend-score">
+                    ⚡ ${trend.score}
+                </span>
+
+            </div>
+
+
+            <div class="trend-content">
+
+                <h3>
+                    ${trend.name}
+                </h3>
+
+                <p>
+                    ${trend.description}
+                </p>
+
+                <p class="growth">
+                    ↗ ${trend.growth} growth
+                </p>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+        }
+
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        searchInput.addEventListener(
+            "input",
+            renderTrends
+        );
+
+
+        /* =========================================================
+           CATEGORY FILTER
+        ========================================================= */
+
+        filterButtons.forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+
+
+
+                    filterButtons.forEach(
+                        btn =>
+                            btn.classList.remove("active")
+                    );
+
+                    button.classList.add("active");
+
+                    currentCategory =
+                        button.dataset.category;
+
+                    renderTrends();
+
+                }
+            );
+
+        });
+
+
+        /* =========================================================
+           TREND DETAIL
+        ========================================================= */
+
+        function openTrend(id) {
+
+            const trend =
+                trends.find(item => item.id === id);
+
+            if (!trend) return;
+
+
+            trendModalContent.innerHTML = `
+
+        <div class="detail-header">
+
+            <div class="detail-icon">
+                ${trend.icon}
+            </div>
+
+            <div class="detail-title">
+
+                <h2>
+                    ${trend.name}
+                </h2>
+
+                <p>
+                    ${trend.category}
+                </p>
+
+            </div>
+
+            <div class="detail-score">
+                ${trend.score}
+            </div>
+
+        </div>
+
+
+        <div class="detail-content">
+
+            <p>
+                ${trend.description}
+            </p>
+
+
+            <div class="detail-stats">
+
+                <div class="detail-stat">
+
+                    <strong>
+                        ${trend.social}
+                    </strong>
+
+                    <span>
+                        Social Momentum
+                    </span>
+
+                </div>
+
+
+                <div class="detail-stat">
+
+                    <strong>
+                        ${trend.search}
+                    </strong>
+
+                    <span>
+                        Search Interest
+                    </span>
+
+                </div>
+
+
+                <div class="detail-stat">
+
+                    <strong>
+                        ${trend.engagement}
+                    </strong>
+
+                    <span>
+                        Engagement
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div style="
+                margin-top:25px;
+                padding:18px;
+                background:#10182e;
+                border-radius:15px;
+                border:1px solid rgba(255,255,255,.08);
+            ">
+
+                <strong>
+                    Trend Intelligence
+                </strong>
+
+                <p style="margin-top:8px">
+
+                    This trend currently has a
+                    <strong style="color:#ff42b3">
+                    ${trend.score}/100
+                    </strong>
+                    trend score with
+                    <strong style="color:#45e5a8">
+                    ${trend.growth}
+                    </strong>
+                    growth momentum.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+            trendModal.classList.add("show");
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+
+
+        /* =========================================================
+           CLOSE TREND MODAL
+        ========================================================= */
+
+        trendClose.addEventListener(
+            "click",
+            closeTrendModal
+        );
+
+        trendModal
+            .querySelector(".modal-overlay")
+            .addEventListener(
+                "click",
+                closeTrendModal
+            );
+
+        function closeTrendModal() {
+
+            trendModal.classList.remove("show");
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+
+        /* =========================================================
+           THEME TOGGLE
+        ========================================================= */
+
+        themeBtn.addEventListener(
+            "click",
+            () => {
+
+                document.body.classList.toggle(
+                    "light"
+                );
+
+
+                const isLight =
+                    document.body.classList.contains(
+                        "light"
+                    );
+
+
+                localStorage.setItem(
+                    "fdTheme",
+                    isLight ? "light" : "dark"
+                );
+
+
+                themeBtn.innerHTML =
+                    isLight ? "☀" : "◐";
+
+            }
+        );
+
+
+        /* Load saved theme */
+
+        if (
+            localStorage.getItem("fdTheme")
+            === "light"
+        ) {
+
+            document.body.classList.add("light");
+
+            themeBtn.innerHTML = "☀";
+
+        }
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================= */
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            () => {
+
+                mobileNav.classList.toggle(
+                    "show"
+                );
+
+                mobileMenuBtn.innerHTML =
+                    mobileNav.classList.contains("show")
+                        ? "×"
+                        : "☰";
+
+            }
+        );
+
+
+        /* Close mobile menu after clicking */
+
+        mobileNav
+            .querySelectorAll("a")
+            .forEach(link => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        mobileNav.classList.remove(
+                            "show"
+                        );
+
+                        mobileMenuBtn.innerHTML =
+                            "☰";
+
+                    }
+                );
+
+            });
+
+
+        /* =========================================================
+           SECTION NAVIGATION
+        ========================================================= */
+
+        function goToSection(section) {
+
+            const element =
+                document.getElementById(section);
+
+            if (element) {
+
+                element.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+
+
+        /* =========================================================
+           NAV ACTIVE LINK
+        ========================================================= */
+
+        const sections =
+            document.querySelectorAll("section[id]");
+
+        const navLinks =
+            document.querySelectorAll(".nav-link");
+
+
+        window.addEventListener(
+            "scroll",
+            () => {
+
+                let current = "home";
+
+
+                sections.forEach(section => {
+
+                    const sectionTop =
+                        section.offsetTop - 150;
+
+                    if (
+                        window.scrollY >=
+                        sectionTop
+                    ) {
+
+                        current =
+                            section.getAttribute("id");
+
+                    }
+
+                });
+
+
+                navLinks.forEach(link => {
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+
+                    if (
+                        link.getAttribute("href")
+                        === "#" + current
+                    ) {
+
+                        link.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                });
+
+
+                /* Back to top */
+
+                if (window.scrollY > 500) {
+
+                    backTop.classList.add("show");
+
+                }
+                else {
+
+                    backTop.classList.remove("show");
+
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           BACK TO TOP
+        ========================================================= */
+
+        backTop.addEventListener(
+            "click",
+            () => {
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+
+        /* =========================================================
+           TOAST
+        ========================================================= */
+
+        let toastTimer;
+
+
+        function showToast(message) {
+
+            toast.textContent =
+                message;
+
+            toast.classList.add("show");
+
+
+            clearTimeout(toastTimer);
+
+
+            toastTimer =
+                setTimeout(
+                    () => {
+
+                        toast.classList.remove(
+                            "show"
+                        );
+
+                    },
+                    2500
+                );
+
+        }
+
+
+        /* =========================================================
+           KEYBOARD ESC
+        ========================================================= */
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (event.key === "Escape") {
+
+                    closeTrendModal();
+
+                    mobileNav.classList.remove(
+                        "show"
+                    );
+
+                    mobileMenuBtn.innerHTML =
+                        "☰";
+
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           INITIAL LOAD
+        ========================================================= */
+
+        renderTrends();
+
+
+        /* =========================================================
+           DYNAMIC STATS
+        ========================================================= */
+
+        const averageScore =
+            Math.round(
+                trends.reduce(
+                    (sum, item) =>
+                        sum + item.score,
+                    0
+                ) / trends.length
+            );
+
+        const hotTrends =
+            trends.filter(
+                item => item.score >= 85
+            ).length;
+
+
+        document.getElementById(
+            "totalTrends"
+        ).textContent =
+            trends.length + "+";
+
+
+        document.getElementById(
+            "averageScore"
+        ).textContent =
+            averageScore + ".0";
+
+
+        document.getElementById(
+            "hotTrends"
+        ).textContent =
+            hotTrends;
+
+
+        /* =========================================================
+           CONSOLE MESSAGE
+        ========================================================= */
+
+        console.log(
+            "FD-Trend Fashion Intelligence loaded successfully."
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<?php
+require __DIR__ . '/config.php';
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT) ?: 0;
+$post = null;
+if ($id) { $stmt=$pdo->prepare("SELECT m.*,p.name AS product_name FROM marketing_posts m LEFT JOIN products p ON p.id=m.product_id WHERE m.id=? AND m.type IN ('article','campaign') AND m.published=1 AND (m.published_at IS NULL OR m.published_at<=NOW())"); $stmt->execute([$id]); $post=$stmt->fetch() ?: null; }
+$q = trim($_GET['q'] ?? '');
+$category = trim($_GET['category'] ?? '');
+$posts = [];
+if (!$post) {
+    $where = ["type IN ('article','campaign')",'published=1','(published_at IS NULL OR published_at<=NOW())']; $params=[];
+    if ($q !== '') { $where[]='(title LIKE ? OR caption LIKE ? OR body LIKE ?)'; $term='%'.$q.'%'; array_push($params,$term,$term,$term); }
+    if ($category !== '') { $where[]='category=?'; $params[]=$category; }
+    $stmt=$pdo->prepare('SELECT * FROM marketing_posts WHERE '.implode(' AND ',$where).' ORDER BY featured DESC,published_at DESC,id DESC'); $stmt->execute($params); $posts=$stmt->fetchAll();
+}
+$categories=$pdo->query("SELECT DISTINCT category FROM marketing_posts WHERE type IN ('article','campaign') AND published=1 ORDER BY category")->fetchAll(PDO::FETCH_COLUMN);
+?>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?= $post ? e($post['title']) : 'Fashion Marketing & Journal' ?> | FD-Trend</title><link rel="stylesheet" href="style.css"></head><body>
+<?php require __DIR__ . '/partials/site_header.php'; ?>
+<main class="wrap section"><p class="eyebrow">FD-TREND / JOURNAL</p><?php if ($post): ?><article class="article-view"><a class="text-link" href="marketing.php">← All stories</a><h1><?= e($post['title']) ?></h1><p class="tag"><?= e($post['category']) ?></p><?php if ($post['image_url']): ?><img class="article-image" src="<?= e($post['image_url']) ?>" alt="<?= e($post['title']) ?>"><?php endif; ?><p class="article-caption"><?= e($post['caption']) ?></p><div class="article-body"><?= nl2br(e($post['body'] ?? '')) ?></div><?php if ($post['product_id']): ?><a class="btn" href="product.php?id=<?= (int)$post['product_id'] ?>">Shop <?= e($post['product_name'] ?? 'the look') ?></a><?php endif; ?></article><?php else: ?><h1>Fashion marketing & style journal</h1><p class="muted">Seasonal edits, outfit inspiration, and campaigns published by FD-Trend.</p><form class="filters" method="get"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Search stories"><select name="category"><option value="">All topics</option><?php foreach ($categories as $name): ?><option <?= $category===$name?'selected':'' ?>><?= e($name) ?></option><?php endforeach; ?></select><button class="btn">Search</button></form><?php if ($posts): ?><div class="grid content-grid"><?php foreach ($posts as $item): ?><article class="card"><?php if ($item['image_url']): ?><img class="product-image" src="<?= e($item['image_url']) ?>" alt="<?= e($item['title']) ?>" loading="lazy"><?php else: ?><div class="content-placeholder">FD / EDIT</div><?php endif; ?><div class="cardbody"><span class="tag"><?= e($item['category']) ?></span><h2><a href="marketing.php?id=<?= (int)$item['id'] ?>"><?= e($item['title']) ?></a></h2><p><?= e($item['caption']) ?></p><a class="text-link" href="marketing.php?id=<?= (int)$item['id'] ?>">Read story →</a><?php if ($item['product_id']): ?><a class="text-link" href="product.php?id=<?= (int)$item['product_id'] ?>">Shop related product →</a><?php endif; ?></div></article><?php endforeach; ?></div><?php else: ?><div class="panel empty-state"><h2>No published stories yet</h2><p>New style guides and seasonal campaigns will appear here when published by the store team.</p></div><?php endif; ?><?php endif; ?></main></body></html>
